@@ -12,6 +12,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
+using sms_invite.Interfaces;
+using sms_invite.Servcie;
+
 namespace sms_invite
 {
     public class Startup
@@ -32,6 +35,8 @@ namespace sms_invite
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "sms_invite", Version = "v1" });
             });
+
+            services.AddTransient<IInviteService, SmsInviteService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

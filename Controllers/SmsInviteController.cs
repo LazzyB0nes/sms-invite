@@ -1,25 +1,27 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using sms_invite.Models;
-
+using sms_invite.Contracts;
+using sms_invite.Interfaces;
 namespace sms_invite.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/api/invite/")]
     public class SmsInviteController : ControllerBase
     {
         private readonly ILogger<SmsInviteController> _logger;
+        private readonly IInviteService _service;
 
-        public SmsInviteController(ILogger<SmsInviteController> logger)
+        public SmsInviteController(ILogger<SmsInviteController> logger, IInviteService service)
         {
             _logger = logger;
+            _service = service;
         }
 
-        [HttpPost]
+        [HttpPost("send")]
         public SmsInvite Invite(SmsInvite invite)
         {
-            throw new NotImplementedException();
+            return _service.Invite(invite);
         }
     }
 }
