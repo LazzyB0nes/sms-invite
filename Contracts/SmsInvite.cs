@@ -1,4 +1,4 @@
-namespace sms_invite.Models
+namespace sms_invite.Contracts
 {
     public class SmsInvite
     {
