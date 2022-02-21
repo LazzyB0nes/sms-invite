@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using sms_invite.Contracts;
 using sms_invite.Models;
@@ -22,23 +23,36 @@ namespace sms_invite.Servcie
             _repository = repository;
             _map = mapper;
         }
-        public SmsInvite Invite(SmsInvite smsInvite)
+
+        public async Task<SmsInvite> Invite(SmsInvite smsInvite)
         {
             List<Invite> addedInvites = new();
             smsInvite.Message = Transliteration.CyrillicToLatin(smsInvite.Message);
 
-            if (ValidateNumbers(smsInvite.Numbers) && ValidateMessage(smsInvite.Message))
-            {
-                var invites = _map.Map<IEnumerable<Invite>>(smsInvite);
+            ValidateNumbers(smsInvite.Numbers);
+            ValidateMessage(smsInvite.Message);
 
-                foreach (var invite in invites)
-                {
-                    var addedInvite = _repository.AddInvite(invite);
-                    addedInvites.Add(invite);
-                }
+            var invites = _map.Map<IEnumerable<Invite>>(smsInvite);
+
+            foreach (var invite in invites)
+            {
+                var addedInvite = await _repository.AddInvite(invite);
+                addedInvites.Add(invite);
             }
 
+            await SendInvite(smsInvite);
             return _map.Map<SmsInvite>(smsInvite);
+        }
+
+        private async Task<bool> SendInvite(SmsInvite smsInvite)
+        {
+            bool isAlreadySended = await _repository.IsNumberAlreadyUsed(smsInvite.Numbers);
+            if (isAlreadySended)
+            {
+                throw new SystemException("Error in sms sender service");
+            }
+
+            return true;
         }
     }
 }

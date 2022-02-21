@@ -1,9 +1,10 @@
 using sms_invite.Contracts;
+using System.Threading.Tasks;
 
 namespace sms_invite.Interfaces
 {
     public interface IInviteService
     {
-        SmsInvite Invite(SmsInvite invite);
+        Task<SmsInvite> Invite(SmsInvite invite);
     }
 }

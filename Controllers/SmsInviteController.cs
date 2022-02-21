@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using sms_invite.Contracts;
@@ -19,9 +21,9 @@ namespace sms_invite.Controllers
         }
 
         [HttpPost("send")]
-        public SmsInvite Invite(SmsInvite invite)
+        public async Task<SmsInvite> Invite(SmsInvite invite)
         {
-            return _service.Invite(invite);
+            return await _service.Invite(invite);
         }
     }
 }
