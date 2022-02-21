@@ -2,8 +2,6 @@ using System;
 using System.Linq;
 
 using System.Text;
-using System.Collections;
-using Mediaburst.Text;
 
 namespace sms_invite.Validators
 {

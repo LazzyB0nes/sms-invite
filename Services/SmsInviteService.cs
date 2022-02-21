@@ -32,15 +32,15 @@ namespace sms_invite.Servcie
             ValidateNumbers(smsInvite.Numbers);
             ValidateMessage(smsInvite.Message);
 
-            var invites = _map.Map<IEnumerable<Invite>>(smsInvite);
+            await SendInvite(smsInvite);
 
+            var invites = _map.Map<IEnumerable<Invite>>(smsInvite);
             foreach (var invite in invites)
             {
                 var addedInvite = await _repository.AddInvite(invite);
                 addedInvites.Add(invite);
             }
 
-            await SendInvite(smsInvite);
             return _map.Map<SmsInvite>(smsInvite);
         }
 
