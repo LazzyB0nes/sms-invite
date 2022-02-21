@@ -22,7 +22,6 @@ namespace sms_invite.Servcie
             _repository = repository;
             _map = mapper;
         }
-
         public SmsInvite Invite(SmsInvite smsInvite)
         {
             List<Invite> addedInvites = new();
