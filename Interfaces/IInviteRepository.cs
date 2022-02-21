@@ -6,5 +6,6 @@ namespace sms_invite.Interfaces
     public interface IInviteRepository 
     {
         Task<Invite> AddInvite(Invite invite);
+        Task<bool> IsNumberAlreadyUsed(string[] number);
     }
 }

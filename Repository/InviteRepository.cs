@@ -45,5 +45,11 @@ namespace sms_invite.Repository
 
             return requestsCount >= 128;
         }
+
+        public async Task<bool> IsNumberAlreadyUsed(string[] number)
+        {
+            Invite invite = await _dbContext.Set<Invite>().SingleOrDefaultAsync(x => number.Contains(x.PhoneNumber));
+            return invite is not null;
+        }
     }
 }
